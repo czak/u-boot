@@ -45,6 +45,8 @@ const char *board_spl_was_booted_from(void)
 
 u32 spl_boot_device(void)
 {
+	return BOOT_DEVICE_SPI;
+
 	u32 boot_device = BOOT_DEVICE_MMC1;
 
 #if defined(CONFIG_TARGET_CHROMEBOOK_JERRY) || \

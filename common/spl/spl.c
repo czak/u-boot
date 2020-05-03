@@ -542,6 +542,8 @@ static int boot_from_devices(struct spl_image_info *spl_image,
 {
 	int i;
 
+	printf("boot_from_devices, count: %d\n", count);
+
 	for (i = 0; i < count && spl_boot_list[i] != BOOT_DEVICE_NONE; i++) {
 		struct spl_image_loader *loader;
 
