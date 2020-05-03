@@ -12,6 +12,7 @@
 
 	chosen {
 		stdout-path = &uart2;
+		u-boot,spl-boot-order = &spi_flash;
 	};
 };
 
@@ -29,6 +30,7 @@
 
 &uart2 {
 	reg-shift = <2>;
+	u-boot,dm-pre-reloc;
 };
 
 &usb_host1 {
@@ -41,4 +43,16 @@
         compatible = "at,24c08", "i2c-eeprom";
         reg = <0x50>;
     };
+};
+
+&spi2 {
+	status = "okay";
+	u-boot,dm-pre-reloc;
+
+	spi_flash: spiflash@0 {
+		u-boot,dm-pre-reloc;
+		compatible = "spidev", "jedec,spi-nor";
+		spi-max-frequency = <20000000>; /* Reduce for Dediprog em100 pro */
+		reg = <0>;
+	};
 };
