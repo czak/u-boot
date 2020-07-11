@@ -14,6 +14,7 @@
 #include <version.h>
 #include <asm/io.h>
 #include <asm/arch-rockchip/bootrom.h>
+#include <asm/arch-rockchip/grf_rk3288.h>
 #include <linux/bitops.h>
 
 #define TIMER_LOAD_COUNT_L	0x00
@@ -22,6 +23,11 @@
 #define TIMER_EN	0x1
 #define	TIMER_FMODE	BIT(0)
 #define	TIMER_RMODE	BIT(1)
+
+#define GRF_BASE		0xff770000
+#define GPIO6C_JTAG_ENABLE	0b00000011111111110000001010101010
+
+static int volatile debug_hang = 1;
 
 __weak void rockchip_stimer_init(void)
 {
@@ -80,6 +86,12 @@ void board_init_f(ulong dummy)
 	rockchip_stimer_init();
 	/* Init ARM arch timer in arch/arm/cpu/ */
 	timer_init();
+
+	/* Enable JTAG */
+	struct rk3288_grf * const grf = (void *)GRF_BASE;
+	writel(GPIO6C_JTAG_ENABLE, &grf->gpio6c_iomux);
+
+	while (debug_hang == 1) {}
 
 	ret = uclass_get_device(UCLASS_RAM, 0, &dev);
 	if (ret) {
