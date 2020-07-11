@@ -178,7 +178,7 @@ static int rkclk_set_pll(struct rockchip_cru *cru, enum rk_clk_id clk_id,
 	return 0;
 }
 
-static int rkclk_configure_ddr(struct rockchip_cru *cru, struct rk3288_grf *grf,
+int rkclk_configure_ddr(struct rockchip_cru *cru, struct rk3288_grf *grf,
 			       unsigned int hz)
 {
 	static const struct pll_div dpll_cfg[] = {

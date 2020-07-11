@@ -799,7 +799,8 @@ static int sdram_init(struct dram_info *dram,
 	}
 
 	debug("ddr clk dpll\n");
-	ret = clk_set_rate(&dram->ddr_clk, sdram_params->base.ddr_freq);
+	/* ret = clk_set_rate(&dram->ddr_clk, sdram_params->base.ddr_freq); */
+	ret = rkclk_configure_ddr(0xff760000, 0xff770000, 533000000);
 	debug("ret=%d\n", ret);
 	if (ret) {
 		debug("Could not set DDR clock\n");
